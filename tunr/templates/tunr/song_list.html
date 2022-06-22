@@ -1,0 +1,14 @@
+{% extends 'tunr/base.html' %}
+{% block title %}- Songs {% endblock %}
+{% block content %}
+    <h2>My Songs!</h2>
+    <ul>
+        {% for song in songs %}
+            <a href="{% url 'song_detail' pk=song.pk %}"><h3>{{song.title}}</h3></a>
+            <p>{{song.album}}</p>
+            <p>{{song.artist}}</p>
+            <img src="{{song.preview_url}}" alt="{{song.title}}" />
+            <hr />
+        {% endfor %}
+    </ul>
+{% endblock %}

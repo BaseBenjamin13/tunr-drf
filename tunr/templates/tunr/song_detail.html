@@ -1,0 +1,8 @@
+{% extends 'tunr/base.html' %}
+{% block title%}- {{song.title}} {% endblock %}
+{% block content %}
+<h2>{{song.title}} <a href="">Edit me!</a></h2>
+<h4>{{song.album}}</h4>
+
+<img src="{{song.preview_url}}" alt="{{song.title}}" class="song-photo"/>
+{% endblock %}
