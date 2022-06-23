@@ -1,7 +1,8 @@
+from ast import Delete
 from django.shortcuts import render, redirect
 from .models import Artist, Song
 # from .forms import ArtistForm
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
 
@@ -10,6 +11,34 @@ class ArtistCreate(CreateView):
     fields = ['name', 'photo_url', 'nationality']
     template_name = 'tunr/artist_form.html'
     success_url = '/artists/'
+
+class ArtistUpdate(UpdateView):
+    model = Artist
+    fields = ['name', 'photo_url', 'nationality']
+    template_name = 'tunr/artist_update_form.html'
+    success_url = '/artists/'
+
+class ArtistDelete(DeleteView):
+    model = Artist
+    template_name = 'tunr/artist_delete_form.html'
+    success_url = '/artists/'
+
+class SongCreate(CreateView):
+    model = Song
+    fields = ['artist', 'title', 'album', 'preview_url']
+    template_name = 'tunr/song_form.html'
+    success_url = '/songs/'
+
+class SongUpdate(UpdateView):
+    model = Song
+    fields = ['artist', 'title', 'album', 'preview_url']
+    template_name = 'tunr/song_update_form.html'
+    success_url = '/songs/'
+
+class SongDelete(DeleteView):
+    model = Song
+    template_name = 'tunr/song_delete_form.html'
+    success_url = '/songs/'
 
 def artist_list(request):
     artists = Artist.objects.all()
