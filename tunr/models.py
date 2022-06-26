@@ -3,9 +3,10 @@ from django.db import models
 # Create your models here.
 
 class Artist(models.Model):
-    name = models.CharField(max_length=100)
-    nationality = models.CharField(max_length=100)
-    photo_url = models.TextField()
+    name = models.CharField(max_length=100, default='no name')
+    nationality = models.CharField(max_length=100, default='no name')
+    photo_url = models.TextField(default='no img')
+    genre = models.CharField(max_length=100, default='no genre')
 
     def __str__(self):
         return self.name
