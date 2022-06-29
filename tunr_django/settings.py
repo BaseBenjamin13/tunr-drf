@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
+import dj_database_url
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1$e$4*)(&*39wp&#qa%8$!gdrl_$#0+8(r1jv=ug$qjuu7j@id'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ['MODE'] == 'dev' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 #corsheaders
 CORS_ORIGIN_ALLOW_ALL = True
@@ -36,6 +39,7 @@ CORS_ALLOW_CREDENTIALS = True
 #     "http://localhost:3000/",
 #     "http://localhost:3000",
 # ]
+
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
@@ -44,7 +48,7 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -75,7 +79,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'tunr_django.urls'
@@ -103,13 +109,14 @@ WSGI_APPLICATION = 'tunr_django.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tunr',
-        'USER': 'tunruser',
-        'PASSWORD': 'tunr',
-        'HOST': 'localhost'
-    }
+    'default': dj_database_url.config(conn_max_age=600)
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'tunr',
+    #     'USER': 'tunruser',
+    #     'PASSWORD': 'tunr',
+    #     'HOST': 'localhost'
+    # }
 }
 
 
@@ -153,3 +160,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT=os.path.join(BASE_DIR, "static/")
